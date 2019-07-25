@@ -1,23 +1,24 @@
 #!/bin/bash
 
-#PREFIX="${HOME}/github/yhaplo" ;
 PREFIX="/tmp/yhaplo" ;
 WORKDIR="/tmp/work" ;
-#echo ${PREFIX} ${WORKDIR} ;
+
 if [ ! -e ${WORKDIR} ] ; then mkdir ${WORKDIR}; fi ;
 OUTDIR="${WORKDIR}/yhaplo" ;
 if [ ! -e ${OUTDIR} ] ; then mkdir ${OUTDIR}; fi ;
 
-#WRKFILE="${1}" ; echo WRKFILE=${WRKFILE} ;
-WRKFILE="${1}" ; 
+WRKFILE="${2}" ; 
 
-cd ${PREFIX} ;
-
+cd ${WORKDIR} ;
 BASE="$(basename ${WRKFILE} .txt)" ;
 
+echo "Renaming..."
 cp ${WRKFILE} ${WORKDIR}/${BASE}.23andMe.txt
+
+cd ${PREFIX} ;
 ${PREFIX}/convert2genos.py  ${WORKDIR}/${BASE}.23andMe.txt
 ${PREFIX}/callHaplogroups.py -i ${PREFIX}/converted/${BASE}.genos.txt -c -hp -hpd -ds -dsd -as -asd
-mkdir ${OUTDIR} ;
+
 cp -r ${PREFIX}/output/* ${OUTDIR}/;
+mv ${WORKDIR}/${BASE}.23andMe.txt ${OUTDIR}/;
 rm ${PREFIX}/converted/${BASE}.genos.txt
