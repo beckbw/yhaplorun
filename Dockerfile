@@ -1,8 +1,9 @@
 FROM ubuntu:latest
 USER root
-RUN apt-get update && apt-get install -yq —no-install-recommends \
+RUN apt-get update && apt-get install -yq \
     bzip2 \
     git \
+    python-dev \
     wget \
     vim
 
